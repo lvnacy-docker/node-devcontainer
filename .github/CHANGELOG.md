@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2026-09-15
 
 ### Added
 - Dual remote repository system for private development and public distribution
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Infrastructure
 - Initial Node.js Dev Container implementation
 - Multi-stage Dockerfile with builder and runtime stages
-- Volta integration for Node.js version management
+- Mise integration for Node.js version management
 - VS Code Dev Container optimization with `vscode` user convention
 - Security hardening with non-root execution
 - Global TypeScript installation
@@ -36,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MIT license for open source distribution
 
 ### Features
-- **Volta Integration**: Seamless Node.js version management
+- **Mise Integration**: Seamless Node.js version management
 - **VS Code Optimized**: Pre-configured for Dev Container extension
 - **Security First**: Non-root execution with hardened runtime
 - **TypeScript Ready**: Global TypeScript installation
