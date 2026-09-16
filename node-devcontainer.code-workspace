@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.preferredDarkColorTheme": "Nord Flat",
+		"workbench.preferredLightColorTheme": "Nord Light"
+	}
+}

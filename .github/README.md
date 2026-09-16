@@ -1,14 +1,15 @@
 # Node.js Dev Container
 
-A production-ready Dockerfile optimized for VS Code's Dev Container extension, providing a complete Node.js development environment with Volta for version management.
+A production-ready Dockerfile optimized for VS Code's Dev Container extension, providing a complete Node.js development environment with mise for version management.
 
 ## Features
 
-- **🔧 Volta Integration**: Seamless Node.js version management
+- **🔧 mise Integration**: Seamless Node.js version management
 - **💻 VS Code Optimized**: Pre-configured for Dev Container extension
 - **🔒 Security First**: Non-root execution with hardened runtime environment
     - No `apt`, `dpkg`, `curl`, etc
 - **📦 TypeScript Ready**: Global TypeScript installation for immediate use
+- **📦 pnpm Ready**: pnpm 12 installed globally for package management
 - **⚡ Multi-Stage Build**: Optimized for both development and production
 
 ## Quick Start
@@ -22,7 +23,7 @@ A production-ready Dockerfile optimized for VS Code's Dev Container extension, p
    - Configure `.devcontainer/devcontainer.json` (see below)
    - Command Palette → `Dev Containers: Reopen in Container`
 
-3. **Start Developing**: Your development environment is ready with Node.js, npm, and TypeScript!
+3. **Start Developing**: Your development environment is ready with Node.js 24, npm, pnpm, and TypeScript!
 
 ### Manual Docker Usage
 
@@ -64,25 +65,25 @@ Create `.devcontainer/devcontainer.json` in your project:
 }
 ```
 
-### Volta Version Management
+### mise Version Management
 
 ```bash
 # Pin Node.js version for your project
-volta pin node@20
+mise use node@20
 
 # Install specific versions
-volta install node@18
-volta install npm@10
+mise install node@18
+mise install npm@10
 
 # List available versions
-volta list all
+mise ls
 ```
 
 ## Architecture
 
 ### Multi-Stage Build Design
 
-- **Builder Stage**: Development tools, Volta, Node.js, and TypeScript installation
+- **Builder Stage**: Development tools, mise, Node.js, and TypeScript installation
 - **Runtime Stage**: Minimal production environment with security hardening
 - **VS Code Integration**: Uses `vscode` user convention for seamless IDE integration
 
@@ -92,23 +93,6 @@ volta list all
 - Non-privileged user execution
 - Minimal attack surface
 - Optimized layer caching
-
-## Development Workflow
-
-```bash
-# Initialize new project
-npm init -y
-
-# Install dependencies
-npm install
-npm install -D typescript @types/node
-
-# Development commands
-npm run dev
-npm start
-npm test
-npm run build
-```
 
 ## Build Arguments
 
@@ -134,11 +118,7 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test with both manual Docker and VS Code Dev Container workflows
-5. Submit a pull request
+This project is not accepting PRs at this time. If you encounter a bug or have a suggestion to improve the image, please open an issue.
 
 ---
 
