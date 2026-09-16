@@ -25,6 +25,9 @@ A production-ready Dockerfile optimized for VS Code's Dev Container extension, p
 
 3. **Start Developing**: Your development environment is ready with Node.js 24, npm, pnpm, and TypeScript!
 
+> [!note]
+> It is advised to remove `node_modules` prior to booting into the container as this can create conflicts with the `pnpm` store. Boot into the container, run `pnpm install` and you should be good to go. So long as the lockfile is current, you shouldn't run into any dependency resolution issues.
+
 ### Manual Docker Usage
 
 1. Clone this repo and

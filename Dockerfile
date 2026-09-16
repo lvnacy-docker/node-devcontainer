@@ -13,8 +13,8 @@ RUN apt-get update \
 
 # --- mise, pinned ------------------------------------------------------
 # Pin the version instead of always grabbing "latest" — `curl | sh` on a
-# moving target is how you end up debugging this exact class of problem
-# again in six months. Bump this deliberately when you want to upgrade.
+# moving target is how you end up debugging issues on later rebuilds.
+# Bump this deliberately when it is time to upgrade.
 ARG MISE_VERSION=v2026.9.5
 
 # System-level dirs (NOT under $HOME). This matters for devcontainers:
@@ -43,8 +43,9 @@ RUN mise use --global node@24 pnpm@12 \
 
 # --- TypeScript 7, global ------------------------------------------------
 # TS7 (the Go-native compiler, stable since July 2026) is installed
-# globally for Tab Candy's fast typecheck path, with TS5 handled
-# per-project in node_modules for everything TS7 doesn't fully support yet.
+# globally for a fast typecheck path. Advised to install and use earlier
+# versions of TypeScript (e.g. 6.x) on a per-project basis in node_modules
+# for everything TS7 doesn't fully support yet.
 #
 # `npm install -g` normally drops files next to whichever node binary is
 # active — which here would be somewhere under mise's install dir. That's
@@ -66,19 +67,18 @@ RUN node --version && pnpm --version && tsc --version
 FROM debian:13-slim AS runtime
 
 # Only what's needed to actually run/dev against Node + pnpm inside the
-# container. git and bash are functional requirements for a devcontainer
-# (VS Code's remote server needs a real shell; you'll want git in your
-# terminal), not just "nice to have."
+# container. git and bash are functional requirements for a devcontainer,
+# as VS Code's remote server needs a real shell.
 #
-# NOTE ON DISTROLESS: I'd steer away from it here. VS Code Remote/Dev
-# Containers injects and runs its own server process inside the
-# container over SSH-less exec, which needs a POSIX shell, tar, and
-# coreutils to unpack and stay alive — exactly what distroless images
-# deliberately strip out. Distroless is a great choice for the
-# *production* image you eventually build from this same repo; it's a
-# poor fit for the interactive devcontainer itself. This stage gets you
-# the same hardening benefit (small final image, no build tooling, no
-# package manager binaries left lying around) without breaking the IDE.
+# NOTE ON DISTROLESS: VS Code Remote/Dev Containers injects and runs
+# its own server process inside the container over SSH-less exec, which
+# requires a POSIX shell, tar, and coreutils to unpack and stay alive —
+# exactly what distroless images deliberately strip out. Distroless is a
+# great choice for the *production* image you eventually build from this
+# same repo; however, it's a poor fit for the interactive devcontainer
+# itself. This stage gets you the same hardening benefit (small final
+# image, no build tooling, no package manager binaries left lying around)
+# without breaking the IDE.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         bash \
@@ -141,7 +141,7 @@ COPY --from=builder /usr/local/bin/tsc /usr/local/bin/tsc
 # Exception to "read-only": mise's cache dir isn't build-time-immutable
 # toolchain data, it's a runtime scratch space mise rewrites every time a
 # shim resolves a tool (bin-path lookups, etc). Locking it down alongside
-# installs/shims/config was too broad — reset and re-own just this one
+# installs/shims/config is too broad — reset and re-own just this one
 # subdirectory so mise can actually use it, without giving vscode write
 # access to the installed binaries or config.toml next to it.
 RUN rm -rf /usr/local/share/mise/cache \
